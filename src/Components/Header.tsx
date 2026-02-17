@@ -1,97 +1,133 @@
 import logo from "../assets/transparentlogo.png";
-import {XMarkIcon,SunIcon, Bars3Icon, HomeIcon, ChartBarIcon, Cog6ToothIcon, ArrowRightEndOnRectangleIcon,ArrowPathRoundedSquareIcon, HeartIcon} from "@heroicons/react/24/outline";
-import {useState} from "react";
+import {
+  XMarkIcon,
+  SunIcon,
+  Bars3Icon,
+  HomeIcon,
+  ChartBarIcon,
+  Cog6ToothIcon,
+  ArrowRightEndOnRectangleIcon,
+  ArrowPathRoundedSquareIcon,
+  HeartIcon,
+} from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
+
   return (
-    // NAV DESKTOP
-    <div className="">
-      <nav className="text-amber-100 text-3xl ">
-        <img src={logo} alt="" className="hidden md:flex h-50" />
-        <div className="hidden md:flex h-200 flex-col justify-between px-12 py-10 bg-[#111827] w-80 ">
-          <ul >
-            <li transition-transform ease-in-out hover:scale-110>
-              <a href="" className="flex gap-2"><HomeIcon className="h-10" />
-                Dashboard
-              </a>
-            </li>
-            <li className="mt-8 transition-transform ease-in-out hover:scale-110">
-              <a href="" className="flex gap-2" ><ChartBarIcon className="h-10"/>Analytics</a>
-            </li>
-            <li className="mt-8 transition-transform ease-in-out hover:scale-110">
-              <a href="" className="flex gap-2"><ArrowPathRoundedSquareIcon className="h-10" />Planner</a>
-            </li>
-            <li className="mt-8 transition-transform ease-in-out hover:scale-110">
-              <a href="" className="flex gap-2"><HeartIcon className="h-10"/>Reflection</a>
-            </li>
-          </ul>
-          <ul>
-            <li className="transition-transform ease-in-out hover:scale-110">
-              <a href="" className="flex gap-2"> <ArrowRightEndOnRectangleIcon className="h-10" />Logout</a>
-            </li>
-            <button className="mt-3 flex gap-2"> <Cog6ToothIcon  className="h-10"/> Settings</button>
-            <button className="flex gap-2 mt-3  "><SunIcon className="h-10" />theme</button>
-          </ul>
-        </div>
-      </nav>
+    <>
+      {/* MOBILE TOP BAR */}
+      <header className="md:hidden flex items-center justify-between px-6 py-4 bg-[#111827]">
+        <Bars3Icon
+          className="h-8 w-8 text-[#F8FAFC]"
+          onClick={() => setToggle(true)}
+        />
 
-      {/* NAV MOBILE */}
+        <img src={logo} alt="Prodiva Logo" className="h-30" />
 
-      <nav className="flex justify-between px-8 md:hidden lg:hidden">
-        <div className=" flex justify-between items-center w-full bg-[#111827] px-6  rounded-4xl mt-4">
-          {!toggle ? (
-            <Bars3Icon
-              className="h-10 sm:h-15  text-[#F8FAFC]"
-              onClick={() => {
-                setToggle(true);
-              }}
-            />
-          ) : (
-            <XMarkIcon
-              className=" h-10 sm:h-15 text-red-800 "
-              onClick={() => {
-                setToggle(false);
-              }}
-            />
-          )}
+        <SunIcon className="h-8 w-8 text-[#F8FAFC]" />
+      </header>
 
-          <img src={logo} alt="" className="h-20 sm:h-40" />
+      {/* MOBILE SIDEBAR OVERLAY */}
+      {toggle && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Overlay */}
+          <div
+            className="bg-black/50 w-full"
+            onClick={() => setToggle(false)}
+          />
 
-          {toggle && (
-            <nav className="  text-amber-100 flex flex-col items-start justify-start mt-30 absolute top-0 ">
-              <div className=" text-2xl sm: bg-gray-700 p-10 text-[25px] ">
-                <ul >
-                  <li className="transition-transform ease-in-out hover:scale-110">
-                    <a href="" className="">
-                      Dashboard
-                    </a>
-                  </li>
-                  <li className="mt-3 transition-transform ease-in-out hover:scale-110">
-                    <a href="">Analytics</a>
-                  </li>
-                  <li className="mt-3 transition-transform ease-in-out hover:scale-110">
-                    <a href="">Planner</a>
-                  </li>
-                  <li className="mt-3 transition-transform ease-in-out hover:scale-110">
-                    <a href="">Reflection</a>
-                  </li>
-                </ul>
-                <ul>
-                  <li>
-                    <a href="">Logout</a>
-                  </li>
-                  <button className="mt-3 transition-transform ease-in-out hover:scale-110">Settings</button>
-                  <button className="block mt-3 transition-transform ease-in-out hover:scale-110">theme</button>
-                </ul>
+          {/* Sidebar */}
+          <aside className="w-72 bg-[#111827] p-6 flex flex-col justify-between">
+            <div>
+              <div className="flex justify-between items-center mb-8">
+                <img src={logo} alt="Prodiva Logo" className="h-10" />
+                <XMarkIcon
+                  className="h-6 w-6 text-[#F8FAFC]"
+                  onClick={() => setToggle(false)}
+                />
               </div>
-            </nav>
-          )}
 
-          <SunIcon className="h-10 sm:h-15 w-15  text-[#F8FAFC] bg-[#08172e] rounded-[50%]" />
+              <ul className="space-y-6 text-[#F8FAFC]">
+                <li className="flex items-center gap-3 hover:text-[#3B82F6] transition">
+                  <HomeIcon className="h-6 w-6" />
+                  Dashboard
+                </li>
+
+                <li className="flex items-center gap-3 hover:text-[#3B82F6] transition">
+                  <ChartBarIcon className="h-6 w-6" />
+                  Analytics
+                </li>
+
+                <li className="flex items-center gap-3 hover:text-[#3B82F6] transition">
+                  <ArrowPathRoundedSquareIcon className="h-6 w-6" />
+                  Planner
+                </li>
+
+                <li className="flex items-center gap-3 hover:text-[#3B82F6] transition">
+                  <HeartIcon className="h-6 w-6" />
+                  Reflection
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-5 text-[#94A3B8]">
+              <div className="flex items-center gap-3 hover:text-[#F8FAFC] transition">
+                <Cog6ToothIcon className="h-6 w-6" />
+                Settings
+              </div>
+
+              <div className="flex items-center gap-3 hover:text-[#F8FAFC] transition">
+                <ArrowRightEndOnRectangleIcon className="h-6 w-6" />
+                Logout
+              </div>
+            </div>
+          </aside>
         </div>
-      </nav>
-    </div>
+      )}
+
+      {/* DESKTOP SIDEBAR */}
+      <aside className="hidden md:flex md:flex-col md:w-72 md:h-screen md:bg-[#111827] md:p-8 md:justify-between">
+        <div>
+          <img src={logo} alt="Prodiva Logo" className="h-20 mb-12" />
+
+          <ul className="space-y-8 text-[#F8FAFC]">
+            <li className="flex items-center gap-3 hover:text-[#3B82F6] transition">
+              <HomeIcon className="h-6 w-6" />
+              Dashboard
+            </li>
+
+            <li className="flex items-center gap-3 hover:text-[#3B82F6] transition">
+              <ChartBarIcon className="h-6 w-6" />
+              Analytics
+            </li>
+
+            <li className="flex items-center gap-3 hover:text-[#3B82F6] transition">
+              <ArrowPathRoundedSquareIcon className="h-6 w-6" />
+              Planner
+            </li>
+
+            <li className="flex items-center gap-3 hover:text-[#3B82F6] transition-transform">
+              <HeartIcon className="h-6 w-6" />
+              Reflection
+            </li>
+          </ul>
+        </div>
+
+        <div className="space-y-6 text-[#94A3B8]">
+          <div className="flex items-center gap-3 hover:text-[#F8FAFC] transition">
+            <Cog6ToothIcon className="h-6 w-6" />
+            Settings
+          </div>
+
+          <div className="flex items-center gap-3 hover:text-[#F8FAFC] transition">
+            <ArrowRightEndOnRectangleIcon className="h-6 w-6" />
+            Logout
+          </div>
+        </div>
+      </aside>
+    </>
   );
 };
 
