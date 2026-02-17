@@ -1,39 +1,37 @@
 import logo from "../assets/transparentlogo.png";
-import {Bars3Icon} from "@heroicons/react/24/outline";
-import {SunIcon} from "@heroicons/react/24/outline";
-import {XMarkIcon} from "@heroicons/react/24/outline";
+import {XMarkIcon,SunIcon, Bars3Icon, HomeIcon, ChartBarIcon, Cog6ToothIcon, ArrowRightEndOnRectangleIcon,ArrowPathRoundedSquareIcon, HeartIcon} from "@heroicons/react/24/outline";
 import {useState} from "react";
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
   return (
     // NAV DESKTOP
-    <div className="min-h-50vh">
+    <div className="">
       <nav className="text-amber-100 text-3xl ">
         <img src={logo} alt="" className="hidden md:flex h-50" />
         <div className="hidden md:flex h-200 flex-col justify-between px-12 py-10 bg-[#111827] w-80 ">
           <ul >
             <li transition-transform ease-in-out hover:scale-110>
-              <a href="" className="">
+              <a href="" className="flex gap-2"><HomeIcon className="h-10" />
                 Dashboard
               </a>
             </li>
             <li className="mt-8 transition-transform ease-in-out hover:scale-110">
-              <a href="">Analytics</a>
+              <a href="" className="flex gap-2" ><ChartBarIcon className="h-10"/>Analytics</a>
             </li>
             <li className="mt-8 transition-transform ease-in-out hover:scale-110">
-              <a href="">Planner</a>
+              <a href="" className="flex gap-2"><ArrowPathRoundedSquareIcon className="h-10" />Planner</a>
             </li>
             <li className="mt-8 transition-transform ease-in-out hover:scale-110">
-              <a href="">Reflection</a>
+              <a href="" className="flex gap-2"><HeartIcon className="h-10"/>Reflection</a>
             </li>
           </ul>
           <ul>
             <li className="transition-transform ease-in-out hover:scale-110">
-              <a href="">Logout</a>
+              <a href="" className="flex gap-2"> <ArrowRightEndOnRectangleIcon className="h-10" />Logout</a>
             </li>
-            <button className="mt-3">Settings</button>
-            <button className="block mt-3">theme</button>
+            <button className="mt-3 flex gap-2"> <Cog6ToothIcon  className="h-10"/> Settings</button>
+            <button className="flex gap-2 mt-3  "><SunIcon className="h-10" />theme</button>
           </ul>
         </div>
       </nav>
