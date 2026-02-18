@@ -18,15 +18,20 @@ const Header = () => {
   return (
     <>
       {/* MOBILE TOP BAR */}
-      <header className="md:hidden flex items-center justify-between px-6 py-4 bg-[#111827]">
-        <Bars3Icon
+      <header className="md:hidden flex items-center justify-between px-6 bg-[#111827]"> 
+        <div className="flex justify-between items-center w-full bg-[#021a2e] rounded-2xl px-5">  
+          <Bars3Icon
           className="h-8 w-8 text-[#F8FAFC]"
           onClick={() => setToggle(true)}
         />
 
-        <img src={logo} alt="Prodiva Logo" className="h-30" />
+        <img src={logo} alt="Prodiva Logo" className="h-15" />
 
         <SunIcon className="h-8 w-8 text-[#F8FAFC]" />
+
+
+        </div>
+       
       </header>
 
       {/* MOBILE SIDEBAR OVERLAY */}
