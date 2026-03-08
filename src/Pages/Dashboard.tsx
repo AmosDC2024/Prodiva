@@ -1,6 +1,12 @@
 import Header from "../Components/Header";
 import SearchBar from "../Components/SearchBar";
-import ActiveTask from "../Components/ActiveTask";
+import ActiveTask from "../Components/ActiveTask"; 
+import  TodaysFocus  from "../Components/TodaysFocus"; 
+import DesktopTodaysFocus from "../Components/DesktopFocus";
+import Badges from "../Components/Badges"; 
+import DateNavigator from "../Components/ActiveDate";
+import UpcomingTasks from "../Components/UpcomingTask";
+
 
 const Dashboard = () => {
   // Component logic and state hooks go here
@@ -10,7 +16,19 @@ const Dashboard = () => {
         <Header></Header>
         <div className="w-full">
           <SearchBar />
-          <ActiveTask />
+          <ActiveTask /> 
+          <TodaysFocus /> 
+          <span className="sm:hidden"> <Badges /> </span>
+          
+          <div className="hidden sm:flex justify-between">  
+          <DesktopTodaysFocus /> 
+          <Badges /> 
+          </div>   
+             <DateNavigator /> 
+             <UpcomingTasks /> 
+        
+          
+
         </div>
       </div>
     </div>
