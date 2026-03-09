@@ -31,14 +31,14 @@ export const DateNavigator = () => {
 
   return (
 
-    <div className="flex items-center justify-between p-4 rounded-2xl bg-[#0B1120] border border-white/10">
+    <div className="flex items-center mt-3 justify-between p-4 rounded-2xl bg-[#0B1120] border border-white/10">
 
       <ChevronLeft
         onClick={prevWeek}
         className="text-gray-400 cursor-pointer hover:text-white"
       />
 
-      <div className="flex gap-6">
+      <div className="flex gap-3 sm:gap-6">
 
         {week.map((date, index) => {
 
@@ -62,7 +62,7 @@ export const DateNavigator = () => {
               </span>
 
               <span
-                className={`text-xs ${
+                className={`text-[10px] sm:text-sm ${
                   isToday ? "text-blue-400" : ""
                 }`}
               >
