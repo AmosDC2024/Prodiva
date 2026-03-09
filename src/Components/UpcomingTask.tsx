@@ -6,11 +6,11 @@ export const UpcomingTasks = () => {
 
     <div className="space-y-6">
 
-      <h2 className="text-lg text-gray-200 font-semibold">
+      <h2 className="text-lg w-full px-3 mt-2 text-gray-200 font-semibold">
         Upcoming Tasks
       </h2>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-1 sm:gap-6">
 
         <TaskCard />
         <TaskCard />

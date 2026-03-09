@@ -12,11 +12,11 @@ export const TaskItem = ({ time, title, done }: TaskItemProps) => {
 
       <div className="flex items-center gap-4">
 
-        <span className="text-gray-400 text-sm">
+        <span className="text-gray-400 text-[10px] sm:text-sm">
           {time}
         </span>
 
-        <span className="text-gray-200 text-sm">
+        <span className="text-gray-200 text-[10px] sm:text-sm">
           {title}
         </span>
 
@@ -24,7 +24,7 @@ export const TaskItem = ({ time, title, done }: TaskItemProps) => {
 
       {done ? (
 
-        <span className="text-xs px-3 py-1 rounded-md bg-green-500/20 text-green-400">
+        <span className="text-[10px] sm:text-xs px-1 sm:px-3 py-1 rounded-md bg-green-500/20 text-green-400">
           DONE ✓
         </span>
 
