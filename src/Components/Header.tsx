@@ -31,7 +31,7 @@ const Header = () => {
           />
 
           {/* RIGHT — Search + Notification */}
-          <div className="flex items-center gap-4 relative">
+          <div className="flex items-center gap-4 relative z-10">
             {/* Search Toggle */}
             <button onClick={() => setOpen(!open)} className="text-gray-300">
               <MagnifyingGlassIcon className="h-6 w-6" />
