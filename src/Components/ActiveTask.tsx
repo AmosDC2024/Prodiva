@@ -2,7 +2,7 @@ import ActiveTaskSection from "./DesktopTaskBar";
 const ActiveTask = () => {
   return ( 
     <>
-    <div className="flex justify-center items-center min-h-screen bg-[#0B1120] p-6 sm:hidden">
+    <div className="flex justify-center items-center bg-[#0B1120] p-6 sm:hidden">
       
       {/* Card */}
       <div className="relative sm:w-full  w-full rounded-2xl p-6 
