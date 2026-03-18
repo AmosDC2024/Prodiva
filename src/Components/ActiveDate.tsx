@@ -1,26 +1,26 @@
-import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import  getWeekDays  from '../utils/getWeekDays';
+import getWeekDays from "../utils/getWeekDays";
 
-export const DateNavigator = () => {
+interface Props {
+  activeDate: Date;
+  setActiveDate: (date: Date) => void;
+}
+
+export const DateNavigator = ({ activeDate, setActiveDate }: Props) => {
 
   const today = new Date();
-
-  const [currentDate, setCurrentDate] = useState(today);
-  const [activeDate, setActiveDate] = useState(today);
-
-  const week = getWeekDays(currentDate);
+  const week = getWeekDays(activeDate);
 
   const nextWeek = () => {
-    const next = new Date(currentDate);
+    const next = new Date(activeDate);
     next.setDate(next.getDate() + 7);
-    setCurrentDate(next);
+    setActiveDate(next);
   };
 
   const prevWeek = () => {
-    const prev = new Date(currentDate);
+    const prev = new Date(activeDate);
     prev.setDate(prev.getDate() - 7);
-    setCurrentDate(prev);
+    setActiveDate(prev);
   };
 
   const formatDay = (date: Date) =>
@@ -46,6 +46,7 @@ export const DateNavigator = () => {
           const isToday = isSameDay(date, today);
 
           return (
+
             <div
               key={index}
               onClick={() => setActiveDate(date)}
@@ -57,9 +58,7 @@ export const DateNavigator = () => {
                   : "text-gray-400 hover:text-white"
               }`}
             >
-              <span className="text-sm">
-                {formatDay(date)}
-              </span>
+              <span className="text-sm">{formatDay(date)}</span>
 
               <span
                 className={`text-[10px] sm:text-sm ${
@@ -84,6 +83,6 @@ export const DateNavigator = () => {
     </div>
 
   );
-}; 
+};
 
 export default DateNavigator;

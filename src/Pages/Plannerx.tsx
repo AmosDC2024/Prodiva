@@ -1,113 +1,149 @@
-import { useState } from "react"
-import PlannerHeader from "../Components/PlannerHeader"
-import AddTaskModal from "../Components/AddTaskModal"
+import { useState, useEffect } from "react"
 import TaskList from "../Components/TaskList"
-import YesterdayTasks from "../Components/YesterdaysTask"
+import AddTaskModal from "../Components/AddTaskModal"
+import DateNavigator from "../Components/ActiveDate"
 import type { Task } from "../types/task"
-import { useLocalStorage } from "../utils/localStorage"
-import { getTodayDate } from "../utils/getTodayDate"
 
 export default function Planner() {
 
-  const today = getTodayDate()
+  const formatDate = (date: Date) => {
+    const y = date.getFullYear()
+    const m = String(date.getMonth() + 1).padStart(2, "0")
+    const d = String(date.getDate()).padStart(2, "0")
+    return `${y}-${m}-${d}`
+  }
 
-  const [tasks, setTasks] = useLocalStorage<Task[]>("tasks", [])
+  const [activeDate, setActiveDate] = useState(new Date())
+  const activeDateString = formatDate(activeDate)
+
+  const prevDay = new Date(activeDate)
+  prevDay.setDate(prevDay.getDate() - 1)
+  const prevDayString = formatDate(prevDay)
+
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const saved = localStorage.getItem("tasks")
+    return saved ? JSON.parse(saved) : []
+  })
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks))
+  }, [tasks])
+
   const [open, setOpen] = useState(false)
+  const [editingTask, setEditingTask] = useState<Task | null>(null)
 
-  const createTask = (task: Task) => {
-    setTasks([...tasks, task])
+  const handleCreateTask = (task: Task) => {
+    setTasks(prev => {
+      const exists = prev.find(t => t.id === task.id)
+      return exists
+        ? prev.map(t => (t.id === task.id ? task : t))
+        : [...prev, task]
+    })
+
+    setOpen(false)
+    setEditingTask(null)
   }
 
   const toggleComplete = (id: string) => {
-
-    const updated = tasks.map((task) =>
-      task.id === id
-        ? { ...task, completed: !task.completed }
-        : task
+    setTasks(prev =>
+      prev.map(t =>
+        t.id === id ? { ...t, completed: !t.completed } : t
+      )
     )
-
-    setTasks(updated)
   }
 
-  const moveYesterdayTasks = () => {
-
-    const updated = tasks.map(task => {
-
-      if (task.date !== today && !task.completed) {
-        return {
-          ...task,
-          date: today
-        }
-      }
-
-      return task
-    })
-
-    setTasks(updated)
+  const handleEdit = (task: Task) => {
+    setEditingTask(task)
+    setOpen(true)
   }
 
-  /* ---------- TASK GROUPING (FIXED) ---------- */
-
-  const activeTodayTasks = tasks.filter(
-    task => task.date === today && !task.completed
+  const activeTasks = tasks.filter(
+    t => t.date === activeDateString && !t.completed
   )
 
-  const completedTodayTasks = tasks.filter(
-    task => task.date === today && task.completed
+  const completedTasks = tasks.filter(
+    t => t.date === activeDateString && t.completed
   )
 
-  const yesterdayTasks = tasks.filter(
-    task => task.date !== today && !task.completed
+  const spilledTasks = tasks.filter(
+    t => !t.completed && t.date === prevDayString
   )
+
+  const moveToToday = () => {
+    setTasks(prev =>
+      prev.map(t =>
+        t.date === prevDayString && !t.completed
+          ? { ...t, date: activeDateString }
+          : t
+      )
+    )
+  }
 
   return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-black p-4 sm:p-6 space-y-6 text-white">
 
-    <div
-      className="min-h-screen text-white p-10 bg-cover bg-center"
-      style={{ backgroundImage: "url('/galaxy.png')" }}
-    >
+      <DateNavigator
+        activeDate={activeDate}
+        setActiveDate={setActiveDate}
+      />
 
-      <PlannerHeader openModal={() => setOpen(true)} />
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl sm:text-2xl font-bold">Planner</h1>
 
-      {/* ACTIVE TASKS */}
-
-      <h2 className="text-gray-300 text-sm mb-4">
-        Today's Tasks
-      </h2>
+        <button
+          onClick={() => {
+            setEditingTask(null)
+            setOpen(true)
+          }}
+          className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm"
+        >
+          + Add Task
+        </button>
+      </div>
 
       <TaskList
-        tasks={activeTodayTasks}
+        activeTasks={activeTasks}
+        completedTasks={completedTasks}
         toggleComplete={toggleComplete}
+        onEdit={handleEdit}
       />
 
-      {/* COMPLETED TASKS */}
+      {spilledTasks.length > 0 && (
+        <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex justify-between items-center">
 
-      {completedTodayTasks.length > 0 && (
-        <>
-          <h2 className="text-gray-400 text-sm mt-8 mb-4">
-            Completed Today
-          </h2>
+          <div>
+            <p className="text-sm text-gray-300">
+              {spilledTasks.length} unfinished tasks
+            </p>
 
-          <TaskList
-            tasks={completedTodayTasks}
-            toggleComplete={toggleComplete}
-          />
-        </>
+            <div className="text-xs text-gray-400 mt-2">
+              {spilledTasks.map(t => (
+                <div key={t.id}>
+                  {t.startTime} {t.title}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            onClick={moveToToday}
+            className="bg-blue-600 px-3 py-1 rounded-md text-sm"
+          >
+            Move
+          </button>
+
+        </div>
       )}
-
-      {/* YESTERDAY PANEL */}
-
-      <YesterdayTasks
-        tasks={yesterdayTasks}
-        moveToToday={moveYesterdayTasks}
-      />
-
-      {/* MODAL */}
 
       <AddTaskModal
         isOpen={open}
-        onClose={() => setOpen(false)}
-        onCreate={createTask}
+        onClose={() => {
+          setOpen(false)
+          setEditingTask(null)
+        }}
+        onCreate={handleCreateTask}
+        editingTask={editingTask}
+        activeDate={activeDateString}
       />
 
     </div>

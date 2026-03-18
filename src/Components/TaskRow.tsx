@@ -3,48 +3,52 @@ import type { Task } from "../types/task"
 interface Props {
   task: Task
   toggleComplete: (id: string) => void
+  onEdit: (task: Task) => void
+  isCompleted?: boolean
 }
 
-export default function TaskRow({ task, toggleComplete }: Props) {
+export default function TaskRow({
+  task,
+  toggleComplete,
+  onEdit,
+  isCompleted
+}: Props) {
 
   return (
+    <div className={`flex justify-between items-center p-3 rounded-xl border border-white/10 ${isCompleted ? "bg-white/5 opacity-60" : "bg-white/5"}`}>
 
-    <div className="flex items-center justify-between border border-white/10 bg-white/5 rounded-lg p-4">
-
-      <div className="w-20 text-blue-400 font-semibold">
-        {task.startTime}
-      </div>
-
-      <div className="flex-1">
-
-        <h3 className={`font-medium ${task.completed && "line-through text-gray-400"}`}>
-          {task.title}
-        </h3>
-
-        <p className="text-gray-400 text-sm">
-          {task.category} • {task.duration} min
+      <div>
+        <p className="text-sm font-medium">{task.title}</p>
+        <p className="text-xs text-gray-400">
+          {task.startTime} • {task.duration} min
         </p>
-
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
+
+        {/* BLUE DOT */}
+        {!isCompleted && (
+          <span className="w-2 h-2 rounded-full bg-blue-400" />
+        )}
+
+        {!isCompleted && (
+          <button
+            onClick={() => toggleComplete(task.id)}
+            className="text-xs bg-green-600 px-2 py-1 rounded"
+          >
+            Done
+          </button>
+        )}
 
         <button
-          onClick={() => toggleComplete(task.id)}
-          className="text-sm text-gray-300 hover:text-white"
+          onClick={() => onEdit(task)}
+          className="text-xs bg-white/10 px-2 py-1 rounded"
         >
-          Mark Done
+          Edit
         </button>
-
-        <span className="text-gray-400 text-sm">
-          {task.duration} min
-        </span>
-
-        <div className="w-2 h-2 rounded-full bg-blue-400"></div>
 
       </div>
 
     </div>
-
   )
 }
