@@ -84,14 +84,20 @@ export default function AddTaskModal({
       date: activeDate || getTodayDate(),
 
       createdAt: editingTask ? editingTask.createdAt : new Date().toISOString(),
-    }
+    } 
+
+       console.log("SUBMITTING TASK:", newTask)
 
     onCreate(newTask)
 
     reset()
 
-    onClose()
+    onClose() 
+
+ 
   }
+
+  
 
 
 

@@ -2,9 +2,11 @@ import { useState, useEffect } from "react"
 import TaskList from "../Components/TaskList"
 import AddTaskModal from "../Components/AddTaskModal"
 import DateNavigator from "../Components/ActiveDate"
-import type { Task } from "../types/task"
+import type { Task } from "../types/task" 
+import { useTasks } from "../utils/useTasks"
 
-export default function Planner() {
+export default function Planner() { 
+
 
   const formatDate = (date: Date) => {
     const y = date.getFullYear()
@@ -20,14 +22,13 @@ export default function Planner() {
   prevDay.setDate(prevDay.getDate() - 1)
   const prevDayString = formatDate(prevDay)
 
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    const saved = localStorage.getItem("tasks")
-    return saved ? JSON.parse(saved) : []
-  })
+   const { tasks, setTasks } = useTasks()
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks))
-  }, [tasks])
+  }, [tasks]) 
+
+ 
 
   const [open, setOpen] = useState(false)
   const [editingTask, setEditingTask] = useState<Task | null>(null)

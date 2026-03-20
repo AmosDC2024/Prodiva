@@ -5,7 +5,7 @@ export const DesktopTodaysFocus = () => {
   const progress = 65;
 
   return (
-    <div className="hidden md:flex relative overflow-hidden flex items-center gap-8 p-6 rounded-2xl border border-white/10 bg-[#0B1120] shadow-[0_0_25px_rgba(59,130,246,.2)]">
+    <div className="hidden md:flex relative overflow-hidden w-full max-w-1/2 items-center gap-8 p-6 rounded-2xl border border-white/10 bg-[#0B1120] shadow-[0_0_25px_rgba(59,130,246,.2)]">
 
       <StarField/>
 
