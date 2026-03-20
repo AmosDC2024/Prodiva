@@ -1,37 +1,25 @@
-import  TaskItem from "../Tasks/TasksItem"
+import type { Task } from "../../types/task";
 
-export const TaskCard = () => {
+interface Props {
+  task: Task;
+}
 
-  const tasks = [
-
-    { time: "9:00 AM", title: "Deep Work Session for Research" },
-    { time: "10:30 AM", title: "Team Meeting", done: true },
-    { time: "1:00 PM", title: "Lunch Break", done: true },
-    { time: "2:00 PM", title: "Client Call" }
-
-  ]
-
+export const TaskCard = ({ task }: Props) => {
   return (
+    <div className="p-4 rounded-xl border border-white/10 bg-white/5">
 
-    <div className="p-3 sm:p-6 rounded-2xl bg-[#0B1120] border border-white/10 shadow-[0_0_20px_rgba(59,130,246,.1)]">
+      <h3 className="text-white font-medium">
+        {task.title}
+      </h3>
 
-      <div className="space-y-2">
+      <p className="text-sm text-gray-400 mt-1">
+        {task.startTime} • {task.category}
+      </p>
 
-        {tasks.map((task, i) => (
-
-          <TaskItem
-            key={i}
-            time={task.time}
-            title={task.title}
-            done={task.done}
-          />
-
-        ))}
-
-      </div>
+      <p className="text-xs text-gray-500 mt-2">
+        {task.date}
+      </p>
 
     </div>
-
-  )
-}; 
-export default TaskCard;
+  );
+};
