@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import type { Task } from "../types/task";
 import ActiveTaskSection from "./DesktopTaskBar"; 
 
-const ActiveTask = ({ tasks }: { tasks: Task[] }) => {
+const ActiveTask = ({
+  tasks,
+  setProgress
+}: {
+  tasks: Task[];
+  setProgress?: (val: number) => void;
+}) => {
 
   // =========================
   // 🧠 FILTER TODAY TASKS
@@ -29,6 +35,28 @@ const ActiveTask = ({ tasks }: { tasks: Task[] }) => {
   );
 
   // =========================
+  // 📊 PROGRESS CALC
+  // =========================
+
+  const progressPercent = currentTask
+    ? Math.round(
+        ((currentTask.duration * 60 - timeLeft) /
+          (currentTask.duration * 60)) *
+          100
+      )
+    : 0;
+
+  // =========================
+  // 🔥 SYNC PROGRESS TO DASHBOARD
+  // =========================
+
+  useEffect(() => {
+    if (setProgress) {
+      setProgress(progressPercent);
+    }
+  }, [progressPercent, setProgress]);
+
+  // =========================
   // ⏱ TIMER EFFECT
   // =========================
 
@@ -40,14 +68,12 @@ const ActiveTask = ({ tasks }: { tasks: Task[] }) => {
         if (prev <= 1) {
           clearInterval(timer);
 
-          // 🔔 Notification
           alert("Task completed!");
 
-          // move to break phase
           setPhase("break");
           setIsRunning(false);
 
-          return 10; // 10 sec countdown
+          return 10; // break countdown
         }
 
         return prev - 1;

@@ -4,10 +4,21 @@ interface Props {
   total: number;
   completed: number;
   pending: number;
+  activeProgress?: number; // 🔥 NEW
 }
 
-export const TodaysFocus = ({ total, completed }: Props) => {
-  const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
+export const TodaysFocus = ({ 
+  total, 
+  completed, 
+  activeProgress = 0 
+}: Props) => {
+
+  // fallback to task completion if no active progress
+  const baseProgress =
+    total === 0 ? 0 : Math.round((completed / total) * 100);
+
+  // 🔥 use active progress if available
+  const progress = activeProgress > 0 ? activeProgress : baseProgress;
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#050816] p-6 shadow-[0_0_30px_rgba(59,130,246,0.2)] md:hidden">
@@ -28,7 +39,7 @@ export const TodaysFocus = ({ total, completed }: Props) => {
 
           <div className="relative w-32 h-32 flex items-center justify-center">
             <div
-              className="absolute inset-0 rounded-full"
+              className="absolute inset-0 rounded-full transition-all duration-500"
               style={{
                 background: `conic-gradient(#3b82f6 ${progress * 3.6}deg, rgba(255,255,255,0.08) 0deg)`
               }}
@@ -39,8 +50,12 @@ export const TodaysFocus = ({ total, completed }: Props) => {
             </div>
           </div>
 
-          <div className="text-gray-300">
-            {progress}% Complete
+          <div className="text-gray-300 space-y-1">
+            <p>{progress}% Complete</p>
+
+            <p className="text-xs text-gray-400">
+              {completed} of {total} tasks done
+            </p>
           </div>
 
         </div>
